@@ -277,13 +277,13 @@ public:
     void displayTree() {
         Vector<Vector<int>> levels = levelOrderTraversal();
         int depth = levels.size();
-    
+
         for (int i = 0; i < depth; ++i) {
             int betweenSpaces = (1 << (depth - i + 1)); // Calculate spaces between nodes
             int leadingSpaces = (1 << (depth - i)) - 1; // Calculate leading spaces
-    
+
             for (int j = 0; j < leadingSpaces; ++j) cout << " ";
-    
+
             for (int j = 0; j < levels[i].size(); ++j) {
                 if (levels[i][j] != -1) {
                     cout << levels[i][j];
@@ -294,7 +294,7 @@ public:
                     for (int k = 0; k < betweenSpaces; ++k) cout << " ";
                 }
             }
-    
+
             cout << endl;
         }
     }
@@ -304,8 +304,6 @@ int AVLTree::maxLevel = -1;
 
 class AddressBook
 {
-private:
-    AVLTree avlTree;
 public:
     void displayMenu()
     {
@@ -318,7 +316,7 @@ public:
         cout << "5. Display AVL Tree" << endl;
         cout << "6. Exit" << endl;
         cout << "------------------------" << endl;
-        cout << "Enter operation (1-6): ";
+        cout << "Enter operation (1-6): " << flush;;
     }
     void addContact()
     {
@@ -371,6 +369,7 @@ public:
         {
             displayMenu();
             cin >> choice;
+            cout << "You chose option: " << choice << endl;
             switch (choice)
             {
             case 1:
@@ -397,9 +396,17 @@ public:
             }
         } while (choice != 6);
     }
+
+    AVLTree avlTree;
 };
-int main()
-{
+
+int main() {
+    ifstream input("input.txt");
+    if (!input) {
+        cerr << "Error: Cannot open input file!" << endl;
+        return 1;
+    }
+    cin.rdbuf(input.rdbuf());
     AddressBook addressBook;
     addressBook.run();
     return 0;
